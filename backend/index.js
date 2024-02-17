@@ -9,6 +9,7 @@ const queryString = require('querystring');
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
 const userRoutes = require('../backend/routes/user')
+const playlistRoutes = require('../backend/routes/playlist')
 
 // Configuration
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(cors({ credentials: true, origin: process.env.FRONTEND_PORT }));
 app.use(express.urlencoded({ extended: true }));
 app.use('/user',userRoutes)
+app.use('/playlist',playlistRoutes)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
