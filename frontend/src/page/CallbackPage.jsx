@@ -23,7 +23,7 @@ import { useAuth } from '../../AuthContext';
         console.log(code, 'code');
         if (code) {
           try {
-            const response = await axios.get(`http://localhost:3000/callback?code=${code}`,
+            const response = await axios.get(`${import.meta.env.VITE_APP_API}/callback?code=${code}`,
             {withCredentials:true});
             console.log(response.data, 'response from callback page');
           } catch (error) {
@@ -32,7 +32,7 @@ import { useAuth } from '../../AuthContext';
           }
           localStorage.setItem('login', 'true');
           login(true)
-          navigate('/');
+          window.location.assign('/');
         }
 
       }
@@ -40,7 +40,7 @@ import { useAuth } from '../../AuthContext';
     }
   }, [location, navigate]);
   function checkCookie() {
-    axios.get('http://localhost:3000/profile/stat', {withCredentials:true})
+    axios.get(`${import.meta.env.VITE_APP_API}/profile/stat`, {withCredentials:true})
   }
 
   function checkAccess() {

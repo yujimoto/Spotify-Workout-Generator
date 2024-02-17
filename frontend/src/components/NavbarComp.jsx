@@ -2,24 +2,40 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 
 function NavbarComp() {
   const [auth, setAuth] = useState(false)
+  const navigate = useNavigate()
   useEffect(() => {
-    axios.get('http://localhost:3000/user/verify', {withCredentials:true})
+    async function verifyUser() {
+      await axios.get('http://localhost:3000/user/verify', {withCredentials:true})
     .then((res) => {
         console.log(res.data ,'user status')
         setAuth(res.data)
     })
-    .catch((err) => {
+    .catch( async (err) => {
         console.log(err)
+        if (err.response?.data?.error === 'Access token not found') {
+          const refreshTokenResponse = await axios.get(`${import.meta.env.VITE_APP_API}/refresh_token?refresh_token`, { withCredentials: true });
+          console.log(refreshTokenResponse, 'refresh token endpoint response');
+      }
     })
+    }
+    verifyUser()
 },[])
   async function logout() {
-    console.log('logout')
+    await axios.get(`${import.meta.env.VITE_APP_API}/logout`, {withCredentials:true})
+    .then((res) => {
+      console.log(res)
+      console.log('logout')
+      window.location.assign('/');
+    }).catch((err) => {
+      console.log(err)
+    })
+    
   }
 
   return (
@@ -30,14 +46,15 @@ function NavbarComp() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto" >
             {!auth && (<Nav.Link as={Link} to="/login" >Login</Nav.Link>)}
-            {auth && (<Nav.Link onClick={logout} >Logout</Nav.Link>)}
-            <Nav.Link href="#link">Link</Nav.Link>
+            {auth && (<Nav.Link as={Link} to="/createbyplaylist" >Create your Playlist</Nav.Link>)}
+            {/* <Nav.Link href="#link">Link</Nav.Link> */}
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              {/* <NavDropdown.Item href="/createbyplaylist">Create</NavDropdown.Item> */}
+             
+              <NavDropdown.Item as={Link} to="/about">About</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+              {/* {auth && (<Nav.Link onClick={logout} >Logout</Nav.Link>)} */}
+              {auth &&<NavDropdown.Item onClick={logout}>logout</NavDropdown.Item>}
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
-
+import {motion} from 'framer-motion'
 import { useAuth } from '../../AuthContext';
 
 const LoginPage =  () => {
@@ -36,8 +36,15 @@ if (!isAuthenticated) {
 
   return (
     <div className='login'>
-        login
-      <button className='login-btn' onClick={handleLogin}>Login with Spotify</button>
+      {/* <button className='login-btn' onClick={handleLogin}>Login with Spotify</button> */}
+      <motion.button  
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 500, damping: 10 }}
+        whileTap={{ scale: 0.9, rotate:'2deg'}}
+         className='login-btn' >
+         <a onClick={handleLogin}>Login with Spotify</a>
+
+        </motion.button> 
     </div>
   );
 };
