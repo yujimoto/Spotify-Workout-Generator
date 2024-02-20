@@ -27,6 +27,7 @@ router.get('/verify', async (req,res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 })
+//Why is jwt even used here? i think its because i copied my code from my other projects 
 router.get('', function(req, res, next) {
     const {token} = req.cookies;
     console.log(token,'token from profile dfkjsdfkijds ifdsjfi jsdof jsdf???')
@@ -47,7 +48,6 @@ router.get('', function(req, res, next) {
         }
         else {
             // User is not admin
-          
             res.json({ ...info, admin: false });
         }
     })
