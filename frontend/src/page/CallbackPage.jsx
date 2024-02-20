@@ -45,7 +45,7 @@ import { useAuth } from '../../AuthContext';
 
   function checkAccess() {
     const accessToken = Cookies.get('accessToken');
-console.log(accessToken, 'checking access token');// Access the access token from cookies
+console.log(accessToken, 'checking access token');
   }
   return (
     <div>

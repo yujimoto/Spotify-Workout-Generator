@@ -28,7 +28,6 @@ const CreateByPlaylist = () => {
           const res = await axios.get('http://localhost:3000/profile/stat', { withCredentials: true });
           console.log(res.data, 'userinfo');
           setUserInfo(res.data);
-          // Directly use res.data.id here since userInfo state might not be updated yet
           await getPlaylist(res.data.id); // Pass the id directly to getPlaylist
         } catch (err) {
           console.log(err);

@@ -88,7 +88,7 @@ function orderPlaylist(playlistUnordered,playlistLength,warmupLength,motivationP
   const motivationPeriodMs = (motivationPeriod[1]* 60 * 1000 - motivationPeriod[0] * 60 * 1000);
   let motivationTracks = [];
   let remainingTracks = []; // Tracks not selected for warmup or motivation, to be filled around them
-  // Assuming 'scoredTracks' are sorted by descending score
+  
   let motivationDuration = 0;
   for (const track of reducedPlaylist) {
       if (motivationDuration < motivationPeriodMs || motivationTracks.length === 0) {
@@ -148,19 +148,14 @@ router.post('/create/byplaylist/pre', async (req,res) => {
         //   console.log("A track",index, item);
         //   return item.track.id;
         // });
-        //console.log(playlistTrackIds,'playlist from spotify')
+      
         const audioFeatures = await getAudioFeaturesForTracks(playlistTrackIds,accessToken)
-         //console.log(audioFeatures, 'audio features')
         //add stuff so if there are more than 100 tracks then it will split it up and call the getAudioFeat m,ultiple times
-       
         const playlistOrdered = orderPlaylist(audioFeatures,playlistLength,warmupLength,motivationPeriod)
-        // console.log(playlistOrdered, 'final')
         res.json(playlistOrdered);
       } catch (error) {
         console.error('Error fetching playlist from Spotify:', error, 'wtf');
         // const retryAfter = error.response.headers['retry-after'];
-        // console.log(`Rate limit exceeded. Retry after ${retryAfter} seconds.`);
-
         res.status(500).json({ error: 'Internal Server Error' });
       }
 })
@@ -185,7 +180,6 @@ router.post('/create/byplaylist/confirm', async (req, res) => {
   if (!accessToken) {
     return res.status(401).json({ error: 'Access token not found' });
   }
-  //console.log(userId, 'userid')
   try {
     //Create a new playlist
     const data = { name: playlistName}
@@ -197,7 +191,6 @@ router.post('/create/byplaylist/confirm', async (req, res) => {
 
     console.log(response.data, 'response from creating playlist');
     
-    //Assuming you want to add tracks to the playlist next
     const playlistId = response.data.id;
      await addTracksToPlaylist(playlistId, playlistTracks, accessToken);
     

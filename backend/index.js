@@ -98,10 +98,10 @@ app.get('/callback', async (req, res) => {
     const tokenResponse = await fetch('https://accounts.spotify.com/api/token', authOptions);
     const tokenData = await tokenResponse.json();
 
-    // You might want to filter the response data here
+    
     console.log('Token data:', tokenData);
     // Calculate the expiration time for the cookie based on 'expires_in' from 'tokenData'
-    const expiresIn = tokenData.expires_in; // You might need to adjust this based on the format of 'expires_in' from Spotify's response
+    const expiresIn = tokenData.expires_in; 
 
     // Set the access token as a cookie with an expiration time
     res.cookie('accessToken', tokenData.access_token, { httpOnly: true, maxAge: expiresIn * 1000 }); // Convert expiresIn to milliseconds
@@ -109,11 +109,11 @@ app.get('/callback', async (req, res) => {
     res.cookie('login', 'true')
     // Redirect the user to a frontend route after successful authentication
     console.log('res cookie dsafsdf')
-    res.json('succesfull ?'); // Change the URL as needed
+    res.json('succesfull ?'); 
   } catch (error) {
     console.error('Error exchanging code for access token:', error);
     res.status(500).json({ error: 'Internal Server Error' });
-    // Consider more specific error handling based on the type of error
+    
   }
 });
 
