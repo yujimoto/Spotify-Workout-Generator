@@ -1,4 +1,4 @@
-#PLEASE IGNORE THE FRONTEND. THIS WAS MORE OF A BACKEND DEVELOPMENT 
+# PLEASE IGNORE THE FRONTEND. THIS WAS MORE OF A BACKEND DEVELOPMENT 
 # Spotify-Workout-Generator
 A webapp that will use your playlist and generate a new workout playlist based on the bpm of the song (and other metrics) etc etc etc etc. 
 ## How to run this webapp
